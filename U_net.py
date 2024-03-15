@@ -24,7 +24,7 @@ class UNet(nn.Module):
     def __init__(self,num_classes):
         super(UNet, self).__init__()
 
-        self.dconv_1 = conv_3x3(3, 64)
+        self.dconv_1 = conv_3x3(1, 64)
         self.dconv_2 = conv_3x3(64, 128)
         self.dconv_3 = conv_3x3(128, 256)
         self.dconv_4 = conv_3x3(256, 512)
@@ -74,6 +74,6 @@ class UNet(nn.Module):
         conv1u = self.dconv_up1(torch.cat([x, conv1d], dim=1))
 
         # out = self.out(conv1u)
-        out = nn.functional.interpolate(self.out(conv1u), size=(640, 640), mode='bilinear', align_corners=True)
+        out = self.out(conv1u)
 
         return out
