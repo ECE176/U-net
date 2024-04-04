@@ -1,1 +1,3 @@
 # U-net
+## Abstract
+Medical image segmentation is pivotal in enhancing diagnostic accuracy, treatment planning, and patient monitoring. Despite the success of [U-Net](DBLP:journals/corr/RonnebergerFB15)in this domain, challenges persist due to the variability in medical images and the rapid evolution of deep learning technologies. This study proposes the re-implementation of U-Net to incorporate recent advancements in deep learning, aiming to improve segmentation accuracy and efficiency. By leveraging modern computational techniques and a comprehensive dataset, this research seeks to develop a robust model that enhances diagnostic workflows and patient outcomes through improved segmentation performance.
