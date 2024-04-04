@@ -10,6 +10,8 @@ The development of U-Net catalyzed a wave of innovation in medical image segment
 
 ## Dataset
 ![sample](assets/sample.png)
+Figure1: Example of a brain scan from the dataset showing a tumor. Dataset could be found [here](https://www.kaggle.com/datasets/pkdarabi/brain-tumor-image-dataset-semantic-segmentation/data)
+
 The medical images in the dataset are particularly focused on brain scans displaying tumors. These images are invaluable for developing and refining algorithms for the accurate segmentation of brain tumors, which is a critical step in diagnosis and treatment planning. Each scan within the dataset has been carefully selected to represent the variability and complexity one would expect to encounter in a clinical setting. This variability presents challenges in terms of image quality, tumor size, location, and appearance, which the U-Net model must learn to navigate.
 
 ## Methodology
@@ -17,6 +19,8 @@ The medical images in the dataset are particularly focused on brain scans displa
 The network architecture is illustrated in Figure 2. Its structure is characterized by a symmetric "U-shaped" design, consisting of two main parts: the contracting (downsampling) path and the expansive (upsampling) path. 
 
 ![U-Net architecture](assets/unet.png)
+Figure2: U-Net architecture
+
 The contracting path follows the typical architecture of a convolutional network, comprising repeated application of two 3x3 convolutions,  followed by rectified linear unit (ReLU) activation functions and 2x2 max-pooling operations for downsampling, which reduce the spatial dimensions while increasing the feature depth. The expansive path is formed by alternating 2x2 up-convolutions and concatenations with a cropped feature map from the contracting path and followed by regular 3x3 convolutional layers. Skip connections between the downsampling and upsampling layers help recover the spatial context lost during downsampling, which is crucial for accurate segmentation, especially in medical imaging, where precise localization is required.
 
 For optimization, we incorporate padding into the 3x3 convolution layer to maintain the feature layer's height and width unchanged. Position batch normalization between the convolution and activation layers. Substitute ReLU with Leaky ReLU, switch from max pooling to average pooling and apply dilated convolutions for downsampling. 
@@ -40,3 +44,24 @@ Such augmentations can help improve the robustness and generalization of a deep 
 For training loss, we merge Dice loss with cross-entropy loss. It sums the Dice loss and the BCE loss computed with logits (combining a sigmoid layer and the BCE loss in a numerically stable way). It combines the benefits of the Dice coefficient, which is excellent for segmentation overlap, with the pixel-wise classification accuracy of BCE, providing a comprehensive loss function for segmentation tasks.
 
 ## Result
+In this study, we have successfully reimplemented the U-Net architecture to evaluate its efficacy on brain MRI scans. Our results underscore the robustness of the U-Net model, achieving a dice similarity coefficient of 0.69 for base model and 0.75 for optimized model.
+
+Which represent significant improvements over the baseline models. Notably, the U-Net demonstrated exceptional precision in delineating intricate structures within the brain, a testament to its architectural strengths in capturing both context and localization. When subjected to augmentations, including slight translations and controlled rotations, the network maintained performance, indicating strong generalizability and resilience to clinically plausible variations in the data. These results are promising, suggesting that the U-Net's reimplemented version could serve as a reliable tool for automated brain tumor segmentation, potentially aiding in both the diagnostic and surgical planning phases for patients with neurological conditions.
+
+![epoch](assets/epochs.jpg)
+Figure3: Comparison of training loss and validation metrics over a series of epochs for two different models.
+
+On the left, we see the `Training Loss' graph where both Model 1 and Model 2 start with a high loss value at epoch 1, which quickly decreases as the number of epochs increases. On the right, the 'Validation Metrics' graph shows two types of metrics: the validation loss and the Dice coefficient, for each model. Both models start with higher validation loss values that decrease over time. 
+
+![result 1](assets/result1.png)
+Figure4: U-Net Model Performances on detecting a tumor (Model 1).
+
+![result 2](assets/result2.png)
+Figure5: U-Net Model Performances on detecting a tumor (Model 2).
+
+From the examination of the two result graphs, it becomes evident that the performance of Model 1 and Model 2 is remarkably similar in terms of outcome. Both models appear to follow a comparable trajectory with respect to the training loss, exhibiting a consistent decrease as training progresses. This pattern suggests that each model is learning at a similar rate and is improving in its ability to segment tumors from brain MRI images.
+
+## References
+1. O. Ronneberger, P. Fischer, and T. Brox, "U-Net: Convolutional Networks for Biomedical Image Segmentation," CoRR, abs/1505.04597, 2015. Available at: [arXiv:1505.04597](https://arxiv.org/abs/1505.04597)
+
+2. F. Milletari, N. Navab, and S.-A. Ahmadi, "V-Net: Fully Convolutional Neural Networks for Volumetric Medical Image Segmentation," CoRR, abs/1606.04797, 2016. Available at: [arXiv:1606.04797](https://arxiv.org/abs/1606.04797)
